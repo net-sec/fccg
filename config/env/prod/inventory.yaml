@@ -1,0 +1,9 @@
+inventory:
+  - role: dns
+    hosts:
+      - dns-1
+      - dns-2
+  - role: storage
+    hosts:
+      - storage-1
+      - storage-2

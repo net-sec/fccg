@@ -1,0 +1,28 @@
+defaults:
+  domain: prod.cluster.net-sec.ch
+  dns:
+    - 10.20.10.21
+    - 10.20.10.22
+
+dns-1:
+  vip:
+    - address: 10.1.1.20
+      network: public
+    - address: 10.20.10.20
+      network: serv
+  public:
+    interface: enp0s2
+    address: 10.1.1.21
+    gateway: 10.1.1.1
+  serv:
+    interface: enp0s3
+    address: 10.20.10.21
+    gateway: 10.20.10.1
+  mgmt: 
+    interface: enp0s9
+    address: 10.20.11.21
+    gateway: 10.20.11.1
+  sync:
+    interface: enp0s10
+    address: 10.20.12.21
+    gateway: 10.20.12.1
