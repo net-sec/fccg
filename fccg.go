@@ -1,5 +1,6 @@
 package main
 
+
 import (
     "flag"
     "strings"
@@ -8,24 +9,34 @@ import (
     "gopkg.in/yaml.v2"
 )
 
-// YamlConfig is exported.
+
 type NetworkConfigDefaults struct {
     Defaults struct {
         Domain string `yaml:"domain"`
+        Dns []string `yaml:"dns"`
     } `yaml:"defaults"`
 }
 
 type NetworkConfig struct {
-    Dns1 struct {
-        Vip []struct {
+    Hosts []struct {
+        Name string `yaml:"name"`
+        Vips []struct {
             Address string `yaml:"address"`
             Network string `yaml:"network"`
-        }
-    } `yaml:"dns-1"`
+        } `yaml:"vips"`
+        Interfaces []struct {
+            Name string `yaml:"name"`
+            Interface string `yaml:"interface"`
+            Address string `yaml:"address"`
+            Gateway string `yaml:"gateway"`
+        } `yaml:"interfaces"`
+    } `yaml:"hosts"`
 }
 
-func main() {
 
+
+
+func main() {
 
     hostname := flag.String("hostname", "dns-1", "The hostname to generate the config for")
     environment := flag.String("env", "prod", "The environment you'r host running in")
@@ -51,7 +62,7 @@ func main() {
         fmt.Printf("Error reading YAML file: %s\n", err)
         return
     }
-    fmt.Println("networkFileContent:", string(networkFileContent))
+    //fmt.Println("networkFileContent:", string(networkFileContent))
 
 
     var networkConfigDefaults NetworkConfigDefaults
@@ -60,7 +71,7 @@ func main() {
         fmt.Printf("Error parsing YAML file: %s\n", err)
     }
 
-    fmt.Printf("Result: %v\n", networkConfigDefaults)
+    fmt.Printf("networkConfigDefaults: %v\n", networkConfigDefaults)
 
 
 
@@ -70,17 +81,18 @@ func main() {
         fmt.Printf("Error parsing YAML file: %s\n", err)
     }
 
-    fmt.Printf("Result: %v\n", networkConfig)
+    fmt.Printf("networkConfig: %v\n", networkConfig)
 
 
-
+    fmt.Println("")
+    fmt.Println("")
+    fmt.Println("")
+    fmt.Println("")
     fmt.Println("networkFile:", networkFile)
     fmt.Println("usersFile:", usersFile)
     fmt.Println("roleFile:", roleFile)
-
     fmt.Println("nodeNumber:", nodeNumber)
     fmt.Println("nodeRole:", nodeRole)
-
     fmt.Println("hostname:", *hostname)
     fmt.Println("environment:", *environment)
     fmt.Println("tail:", flag.Args())

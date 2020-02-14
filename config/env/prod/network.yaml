@@ -4,25 +4,81 @@ defaults:
     - 10.20.10.21
     - 10.20.10.22
 
-dns-1:
-  vip:
-    - address: 10.1.1.20
-      network: public
-    - address: 10.20.10.20
-      network: serv
-  public:
-    interface: enp0s2
-    address: 10.1.1.21
-    gateway: 10.1.1.1
-  serv:
-    interface: enp0s3
-    address: 10.20.10.21
-    gateway: 10.20.10.1
-  mgmt: 
-    interface: enp0s9
-    address: 10.20.11.21
-    gateway: 10.20.11.1
-  sync:
-    interface: enp0s10
-    address: 10.20.12.21
-    gateway: 10.20.12.1
+hosts:
+  - name: dns-1
+    vips:
+      - address: 10.1.1.20
+        network: public
+      - address: 10.20.10.20
+        network: serv
+    interfaces:
+      - name: public
+        interface: enp0s2
+        address: 10.1.1.21
+        gateway: 10.1.1.1
+      - name: serv
+        interface: enp0s3
+        address: 10.20.10.21
+        gateway: 10.20.10.1
+      - name: mgmt
+        interface: enp0s9
+        address: 10.20.11.21
+        gateway: 10.20.11.1
+      - name: sync
+        interface: enp0s10
+        address: 10.20.12.21
+        gateway: 10.20.12.1
+
+  - name: dns-2
+    vips:
+      - address: 10.1.1.20
+        network: public
+      - address: 10.20.10.20
+        network: serv
+    interfaces:
+      - name: public
+        interface: enp0s2
+        address: 10.1.1.22
+        gateway: 10.1.1.1
+      - name: serv
+        interface: enp0s3
+        address: 10.20.10.22
+        gateway: 10.20.10.1
+      - name: mgmt
+        interface: enp0s9
+        address: 10.20.11.22
+        gateway: 10.20.11.1
+      - name: sync
+        interface: enp0s10
+        address: 10.20.12.22
+        gateway: 10.20.12.1
+
+  - name: storage-1
+    interfaces:
+      - name: serv
+        interface: enp0s3
+        address: 10.20.10.61
+        gateway: 10.20.10.1
+      - name: mgmt
+        interface: enp0s9
+        address: 10.20.11.61
+        gateway: 10.20.11.1
+      - name: sync
+        interface: enp0s10
+        address: 10.20.12.61
+        gateway: 10.20.12.1
+
+  - name: storage-2
+    interfaces:
+      - name: serv
+        interface: enp0s3
+        address: 10.20.10.62
+        gateway: 10.20.10.1
+      - name: mgmt
+        interface: enp0s9
+        address: 10.20.11.62
+        gateway: 10.20.11.1
+      - name: sync
+        interface: enp0s10
+        address: 10.20.12.62
+        gateway: 10.20.12.1
