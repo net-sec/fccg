@@ -8,7 +8,6 @@ import (
     "io/ioutil"
     "gopkg.in/yaml.v2"
     "github.com/boltdb/bolt"
-    "github.com/net-sec/fccg"
 )
 
 
