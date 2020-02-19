@@ -7,9 +7,23 @@ import (
     "fmt"
     "io/ioutil"
     "gopkg.in/yaml.v2"
-    "github.com/boltdb/bolt"
 )
 
+
+type HostConfig struct {
+    Name string `yaml:"name"`
+    Vips []struct {
+        Address string `yaml:"address"`
+        Network string `yaml:"network"`
+    } `yaml:"vips"`
+    Interfaces []struct {
+        Name string `yaml:"name"`
+        Interface string `yaml:"interface"`
+        Address string `yaml:"address"`
+        Gateway string `yaml:"gateway"`
+    } `yaml:"interfaces"`
+
+}
 
 type NetworkConfigDefaults struct {
     Defaults struct {
@@ -34,8 +48,15 @@ type NetworkConfig struct {
     } `yaml:"hosts"`
 }
 
+func (m NetworkConfig) getHostByName(name string) HostConfig {
+    for _, element := range m.Hosts {
+        if element.Name == name {
+            return element
+        }
+    }
 
-
+    return HostConfig{}
+}
 
 func main() {
 
@@ -72,19 +93,17 @@ func main() {
         fmt.Printf("Error parsing YAML file: %s\n", err)
     }
 
-    fmt.Printf("networkConfigDefaults: %v\n", networkConfigDefaults)
-
-
-
     var networkConfig NetworkConfig
     err = yaml.Unmarshal(networkFileContent, &networkConfig)
     if err != nil {
         fmt.Printf("Error parsing YAML file: %s\n", err)
     }
 
+    fmt.Println(networkConfig.getHostByName("dns-1"))
+
+
+    fmt.Printf("networkConfigDefaults: %v\n", networkConfigDefaults)
     fmt.Printf("networkConfig: %v\n", networkConfig)
-
-
     fmt.Println("")
     fmt.Println("")
     fmt.Println("")
