@@ -10,7 +10,7 @@ import (
 )
 
 
-type HostConfig struct {
+type HostNetworkConfig struct {
     Name string `yaml:"name"`
     Vips []struct {
         Address string `yaml:"address"`
@@ -22,7 +22,6 @@ type HostConfig struct {
         Address string `yaml:"address"`
         Gateway string `yaml:"gateway"`
     } `yaml:"interfaces"`
-
 }
 
 type NetworkConfigDefaults struct {
@@ -32,30 +31,19 @@ type NetworkConfigDefaults struct {
     } `yaml:"defaults"`
 }
 
+
 type NetworkConfig struct {
-    Hosts []struct {
-        Name string `yaml:"name"`
-        Vips []struct {
-            Address string `yaml:"address"`
-            Network string `yaml:"network"`
-        } `yaml:"vips"`
-        Interfaces []struct {
-            Name string `yaml:"name"`
-            Interface string `yaml:"interface"`
-            Address string `yaml:"address"`
-            Gateway string `yaml:"gateway"`
-        } `yaml:"interfaces"`
-    } `yaml:"hosts"`
+    Hosts []HostNetworkConfig `yaml:"hosts"`
 }
 
-func (m NetworkConfig) getHostByName(name string) HostConfig {
+func (m NetworkConfig) getHostByName(name string) HostNetworkConfig {
     for _, element := range m.Hosts {
         if element.Name == name {
             return element
         }
     }
 
-    return HostConfig{}
+    return HostNetworkConfig{}
 }
 
 func main() {
